@@ -1,4 +1,4 @@
-var shop = (function () {
+let shop = (function () {
     cart = [];
     let obj = {};
 
@@ -105,8 +105,8 @@ var shop = (function () {
 
 
 
-function displayCart() {
-    var cartlist = shoppingCart.listCart();
+function creatCart() {
+    var cartlist = shop.carts();
     var exit = "";
     for(var i in cartArray) {
     let tr = document.createElement("tr")
@@ -157,9 +157,9 @@ function displayCart() {
     var showCartElements = document.getElementsByClassName("show-cart");
     exit = showCartElements
     var totalCartElements = document.getElementsByClassName("total-cart");
-    shoppingCart.totalCart() = totalCartElements
+    shop.totalCart() = totalCartElements
     var totalCountElements = document.getElementsByClassName("total-cart");
-    shoppingCart.totalCount() = totalCountElements
+    shop.totalCount() = totalCountElements
 
 }
 
@@ -167,4 +167,16 @@ const showCart = document.querySelector()
 
 
 //- buttonuna vurdgumuzda sayin azalmasi
-showCartElements
+showCartElements.addEventListener("click",function(e){
+    if(e.target && e.target.matches(".delete-item")){
+        let name = e.target.getAttribute("data-name")
+        shop.removeCart(name)
+        creatCart()
+    }   
+})
+
+
+//+ buttonuna vurdgumuzda sayin artmasi
+showCartElements.addEventListener("click", function(e){
+    
+})
