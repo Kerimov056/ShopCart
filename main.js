@@ -1,8 +1,1 @@
-
-var shopCart = (function(){
-    cart = [];
-
-    function task(params) {
-        
-    }
-})
+const showcart = document.querySelector('.show-cart')
