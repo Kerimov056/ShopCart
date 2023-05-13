@@ -109,7 +109,7 @@ function displayCart() {
     var cartlist = shoppingCart.listCart();
     var exit = "";
     for(var i in cartArray) {
-        let tr = document.createElement("tr")
+    let tr = document.createElement("tr")
 
     let td = document.createElement("td")
     td.textContent = cartlist[i].name
@@ -119,24 +119,52 @@ function displayCart() {
     let div = document.createElement("div") //div start
     div.className='input-group'
     let btn = document.createElement("button")
+    btn.setAttribute("data-name=", cartArray[i].name);
     btn.className='minus-item input-group-addon btn btn-primary'
     btn.textContent = "-";
     let input = document.createElement("input")
+    input.setAttribute("data-name=", cartArray[i].name);
     input.type = 'number'
     input.className = 'item-count form-control'
     input.value = cartArray[i].count
     let btn2 = document.createElement("button")
+    btn2.setAttribute("data-name=", cartArray[i].name);
     btn2.className='plus-item btn btn-primary input-group-addon'
     btn2.textContent="+"  //div bitdi td bitdi
     let td3 = document.createElement("td")  //td start
     let btn3 = document.createElement("button")
+    btn3.setAttribute("data-name=", cartArray[i].name);
     btn3.className = 'delete-item btn btn-danger'
     btn3.textContent = "X"
     let td4 = document.createElement("td")
     td4.textContent = cartlist[i].sum   //tr end
+
+    div.children(btn)
+    div.children(input)
+    div.children(btn2)
+    td2.children(div)
+
+    td3.children(btn3)
+
+    tr.children(td)
+    tr.children(td1)
+    tr.children(td2)
+    tr.children(td3)
+    tr.children(td4)
+
+    exit +=tr;
     }
+    var showCartElements = document.getElementsByClassName("show-cart");
+    exit = showCartElements
+    var totalCartElements = document.getElementsByClassName("total-cart");
+    shoppingCart.totalCart() = totalCartElements
+    var totalCountElements = document.getElementsByClassName("total-cart");
+    shoppingCart.totalCount() = totalCountElements
 
 }
 
 const showCart = document.querySelector()
 
+
+//- buttonuna vurdgumuzda sayin azalmasi
+showCartElements
