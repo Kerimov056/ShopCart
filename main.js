@@ -62,4 +62,39 @@ var shop = (function(){
         cart = [];
         dowland();
     }
-})
+
+    //Cartin qiymetinin hesabi
+    obj.sumCart = function() {
+        let sum = 0;
+        for(var item in cart){
+            if (cart[item].name === name) {
+                sum = cart[item].price* cart[item].count;
+            }
+            return Number(sum);
+        }
+    }
+
+    //cartlarin sayi
+    obj.sumCount = function() {
+        let sum = 0;
+        for(var item in cart) {
+            sum += cart[item].count;
+          }
+          return sum;
+    }
+
+    //carttlar
+    obj.carts = function() {
+        let newCart = [];
+        for(i in cart){
+            itemCopy = {};
+            item = cart[i]
+            for(nn in item){
+                itemCopy[nn] = item [nn] 
+            }
+        }   
+    }
+
+
+    return obj;
+})();
