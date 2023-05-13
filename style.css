@@ -1,0 +1,18 @@
+.container{
+    padding-top: 80px;
+  }
+  img{
+    width: 250px;
+    height: 250px;
+  }
+  #cart-btn{
+    background-color: blue;
+    border: none;
+  }
+  #clear-btn{
+    background-color: red;
+    border: none;
+  }
+  #add-btn{
+    background-color: blue;
+  }
