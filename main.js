@@ -33,19 +33,6 @@ let shop = (function () {
         cart.push(item)
         dowland()
     }
-    //sebetden cixarmaq
-    obj.removeCart = function () {
-        for (var item in cart) {
-            if (cart[item].name === name) {
-                if (cart[item].count == 0) {
-                    return;
-                }
-                cart[item].count--;
-            }
-        }
-        dowland();
-    }
-
     //burda hepsini silme islemini goruruk
     obj.removeAllCart = function () {
         for (var item in cart) {
@@ -56,7 +43,6 @@ let shop = (function () {
         }
         dowland()
     }
-
     //HAMISIN BIRDEN SILME
     obj.clearCart = function () {
         cart = [];
@@ -73,7 +59,7 @@ let shop = (function () {
             return Number(sum);
         }
     }
-
+    
     //cartlarin sayi
     obj.sumCount = function () {
         let sum = 0;
@@ -82,7 +68,19 @@ let shop = (function () {
         }
         return sum;
     }
-
+    
+    //sebetden cixarmaq
+    obj.removeCart = function () {
+        for (var item in cart) {
+            if (cart[item].name === name) {
+                if (cart[item].count == 0) {
+                    return;
+                }
+                cart[item].count--;
+            }
+        }
+        dowland();
+    }
     //carttlar
     obj.carts = function () {
         let newCart = [];
@@ -164,7 +162,7 @@ function creatCart() {
 }
 
 const showCart = document.querySelectorAll(".add-to-cart")
-// console.log(showCart);
+console.log(showCart);
 
 //- buttonuna vurdgumuzda sayin azalmasi
 showCartElements.addEventListener("click", function (e) {
@@ -188,12 +186,12 @@ showCartElements.addEventListener("click", function (e) {
 
 // sebete add elemek
 showCart.addEventListener("click", function(e) {
-    console.log("add");
-    e.preventDefault()
-    let name = this.getAttribute("data-name")
-    let price = Number(this.getAttribute("data-price"))
-    shop.addToCart(name,price,1)
-    creatCart()
+    console.log("add",asd);
+    // e.preventDefault()
+    // let name = this.getAttribute("data-name")
+    // let price = Number(this.getAttribute("data-price"))
+    // shop.addToCart(name,price,1)
+    // creatCart()
 
 })
 
@@ -205,6 +203,13 @@ showCart.addEventListener("click", function (e) {
 })
 
 
-//count 
-showCartElements.addEventListener("click",)
+//silmek button 
+showCartElements.addEventListener("click",function(e){
+    if(e.target && e.target.matches("item-count")){
+        let name = e.target.getAttribute("data-name")
+        let count = Number(name.value())
+        shop.addToCart(name)
+        creatCart()
+    }
+})
 creatCart();
