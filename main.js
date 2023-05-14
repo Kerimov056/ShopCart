@@ -1,3 +1,27 @@
+const search = document.querySelector("#search")
+
+function run() {
+    search.addEventListener("keyup", filter)
+} //search methodu elave etdim yeni isder kicik 
+//herifle yaz ister boyuk herifle search edib isdediyin 
+//productu sece bilersen
+
+run()
+
+function filter(e) {
+    const filterValue = e.target.value.toLowerCase().trim();
+    const cartList = document.querySelectorAll(".card");
+
+    cartList.forEach(function (product) {
+        if (product.textContent.toLocaleLowerCase().trim().includes(filterValue)) {
+            product.setAttribute("style", "display : block !important")
+        }
+        else {
+            product.setAttribute("style", "display : none !important")
+        }
+    })
+}
+
 
 var shop = (function () {
     var obj = {};
@@ -47,7 +71,7 @@ var shop = (function () {
         cart = [];
         setAdd();
     }
-    
+
     obj.removeitem = function (name) {
         for (var item in cart) {
             if (cart[item].name === name) {
@@ -71,7 +95,7 @@ var shop = (function () {
         setAdd();
     }
 
-    
+
     obj.setItwem = function (name, count) {
         for (var i in cart) {
             if (cart[i].name === name) {
@@ -88,7 +112,7 @@ var shop = (function () {
         return sumCount;
     }
 
-  
+
 
     obj.list = function () {
         var cartCopy = [];
@@ -109,20 +133,20 @@ var shop = (function () {
 })();
 
 let addToCartButtons = document.querySelectorAll('.add-to-cart');
-addToCartButtons.forEach(function(button) {
-  button.addEventListener('click', function(event) {
-    event.preventDefault();
-    let name = button.getAttribute('data-name');
-    let price = Number(button.getAttribute('data-price'));
-    shop.addCart(name, price, 1);
-    cartCreate();
-  });
+addToCartButtons.forEach(function (button) {
+    button.addEventListener('click', function (event) {
+        event.preventDefault();
+        let name = button.getAttribute('data-name');
+        let price = Number(button.getAttribute('data-price'));
+        shop.addCart(name, price, 1);
+        cartCreate();
+    });
 });
 
 var clearCartButton = document.querySelector('.clear-cart');
-clearCartButton.addEventListener('click', function() {
-  shop.clear();
-  cartCreate();
+clearCartButton.addEventListener('click', function () {
+    shop.clear();
+    cartCreate();
 });
 
 
@@ -155,43 +179,43 @@ let showCart = document.querySelector('.show-cart');
 
 
 
-showCart.addEventListener('click', function(event) {
+showCart.addEventListener('click', function (event) {
     event.preventDefault();
-  if (event.target.classList.contains('delete-item')) {
-    var name = event.target.getAttribute('data-name');
-    shop.remove(name);
-    cartCreate();
-  }
+    if (event.target.classList.contains('delete-item')) {
+        var name = event.target.getAttribute('data-name');
+        shop.remove(name);
+        cartCreate();
+    }
 });
 
 
-showCart.addEventListener('click', function(event) {
+showCart.addEventListener('click', function (event) {
     event.preventDefault();
-  if (event.target.classList.contains('minus-item')) {
-    var name = event.target.getAttribute('data-name');
-    shop.removeItem(name);
-    cartCreate();
-  }
+    if (event.target.classList.contains('minus-item')) {
+        var name = event.target.getAttribute('data-name');
+        shop.removeItem(name);
+        cartCreate();
+    }
 });
 
-showCart.addEventListener('click', function(event) {
+showCart.addEventListener('click', function (event) {
     event.preventDefault();
-  if (event.target.classList.contains('plus-item')) {
-    var name = event.target.getAttribute('data-name');
-    shop.addCart(name);
-    cartCreate();
-  }
+    if (event.target.classList.contains('plus-item')) {
+        var name = event.target.getAttribute('data-name');
+        shop.addCart(name);
+        cartCreate();
+    }
 });
 
 
-showCart.addEventListener('change', function(event) {
+showCart.addEventListener('change', function (event) {
     event.preventDefault();
-  if (event.target.classList.contains('item-count') && event.target.nodeName === 'INPUT') {
-    var name = event.target.getAttribute('data-name');
-    var count = Number(event.target.value);
-    shop.setItem(name, count);
-    cartCreate();
-  }
+    if (event.target.classList.contains('item-count') && event.target.nodeName === 'INPUT') {
+        var name = event.target.getAttribute('data-name');
+        var count = Number(event.target.value);
+        shop.setItem(name, count);
+        cartCreate();
+    }
 });
 
 
