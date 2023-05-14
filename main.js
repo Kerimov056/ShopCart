@@ -150,12 +150,12 @@ function cartCreaate() {
 
 
 
-var showCartElement = document.querySelector('.show-cart');
+let showCart = document.querySelector('.show-cart');
 
 
 
 
-showCartElement.addEventListener('click', function(event) {
+showCart.addEventListener('click', function(event) {
     event.preventDefault();
   if (event.target.classList.contains('delete-item')) {
     var name = event.target.getAttribute('data-name');
@@ -165,7 +165,7 @@ showCartElement.addEventListener('click', function(event) {
 });
 
 
-showCartElement.addEventListener('click', function(event) {
+showCart.addEventListener('click', function(event) {
     event.preventDefault();
   if (event.target.classList.contains('minus-item')) {
     var name = event.target.getAttribute('data-name');
@@ -174,7 +174,7 @@ showCartElement.addEventListener('click', function(event) {
   }
 });
 
-showCartElement.addEventListener('click', function(event) {
+showCart.addEventListener('click', function(event) {
     event.preventDefault();
   if (event.target.classList.contains('plus-item')) {
     var name = event.target.getAttribute('data-name');
@@ -184,7 +184,7 @@ showCartElement.addEventListener('click', function(event) {
 });
 
 
-showCartElement.addEventListener('change', function(event) {
+showCart.addEventListener('change', function(event) {
     event.preventDefault();
   if (event.target.classList.contains('item-count') && event.target.nodeName === 'INPUT') {
     var name = event.target.getAttribute('data-name');
