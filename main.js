@@ -1,215 +1,198 @@
-let shop = (function () {
+
+var shop = (function () {
+    var obj = {};
     cart = [];
-    let obj = {};
 
-    function Carts(name, price, count) {
-        this.name = name;
-        this.price = price;
-        this.count = count;
+    // cllass
+    const Item = class {
+        constructor(name, price, count) {
+            this.name = name;
+            this.price = price;
+            this.count = count;
+        }
     }
 
-    function dowland() {
-        sessionStorage.setItem('ShopCarts', JSON.stringify(cart))
+    function setAdd() {
+        sessionStorage.setItem('shop', JSON.stringify(cart));
     }
 
-    function Cekmek() {
-        cart = JSON.parse(sessionStorage.getItem("ShopCarts"))
+    function getSesion() {
+        cart = JSON.parse(sessionStorage.getItem('shop'));
     }
-    if (sessionStorage.getItem("ShopCarts") != null) {
-        Cekmek();
+    if (sessionStorage.getItem("shop") != null) {
+        getSesion();
     }
 
-
-    //Sebete elave etmek
-    obj.addToCart = function (name, price, count) {
+    obj.sumcart = function () {
+        var sumcart = 0;
         for (var item in cart) {
-            if (cart[item].name = name) {
+            sumcart += cart[item].price * cart[item].count;
+        }
+        return Number(sumcart.toFixed(2));
+    }
+
+    obj.addCart = function (name, price, count) {
+        for (var item in cart) {
+            if (cart[item].name === name) {
                 cart[item].count++;
-                dowland();
+                setAdd();
                 return;
             }
         }
-        var item = new Carts(name, price, count);
-        cart.push(item)
-        dowland()
+        var item = new Item(name, price, count);
+        cart.push(item);
+        setAdd();
     }
-    //burda hepsini silme islemini goruruk
-    obj.removeAllCart = function () {
+    obj.clear = function () {
+        cart = [];
+        setAdd();
+    }
+    
+    obj.removeitem = function (name) {
         for (var item in cart) {
             if (cart[item].name === name) {
-                cart[item].count === 0;
+                cart[item].count--;
+                if (cart[item].count === 0) {
+                    cart.splice(item, 1);
+                }
                 break;
             }
         }
-        dowland()
-    }
-    //HAMISIN BIRDEN SILME
-    obj.clearCart = function () {
-        cart = [];
-        dowland();
+        setAdd();
     }
 
-    //Cartin qiymetinin hesabi
-    obj.sumCart = function () {
-        let sum = 0;
+    obj.remove = function (name) {
         for (var item in cart) {
             if (cart[item].name === name) {
-                sum = cart[item].price * cart[item].count;
+                cart.splice(item, 1);
+                break;
             }
-            return Number(sum);
         }
+        setAdd();
     }
+
     
-    //cartlarin sayi
+    obj.setItwem = function (name, count) {
+        for (var i in cart) {
+            if (cart[i].name === name) {
+                cart[i].count = count;
+                break;
+            }
+        }
+    };
     obj.sumCount = function () {
-        let sum = 0;
+        var sumCount = 0;
         for (var item in cart) {
-            sum += cart[item].count;
+            sumCount += cart[item].count;
         }
-        return sum;
-    }
-    
-    //sebetden cixarmaq
-    obj.removeCart = function () {
-        for (var item in cart) {
-            if (cart[item].name === name) {
-                if (cart[item].count == 0) {
-                    return;
-                }
-                cart[item].count--;
-            }
-        }
-        dowland();
-    }
-    //carttlar
-    obj.carts = function () {
-        let newCart = [];
-        for (i in cart) {
-            itemCopy = {};
-            item = cart[i]
-            for (nn in item) {
-                itemCopy[nn] = item[nn]
-            }
-            itemCopy.sum = Number(item.price * item.count);
-            newCart.push(itemCopy)
-        }
-        return newCart;
+        return sumCount;
     }
 
+  
+
+    obj.list = function () {
+        var cartCopy = [];
+        for (i in cart) {
+            item = cart[i];
+            itemCopy = {};
+            for (p in item) {
+                itemCopy[p] = item[p];
+
+            }
+            itemCopy.total = Number(item.price * item.count).toFixed(2);
+            cartCopy.push(itemCopy)
+        }
+        return cartCopy;
+    }
 
     return obj;
 })();
 
+let addToCartButtons = document.querySelectorAll('.add-to-cart');
+addToCartButtons.forEach(function(button) {
+  button.addEventListener('click', function(event) {
+    event.preventDefault();
+    let name = button.getAttribute('data-name');
+    let price = Number(button.getAttribute('data-price'));
+    shop.addCart(name, price, 1);
+    cartCreate();
+  });
+});
+
+var clearCartButton = document.querySelector('.clear-cart');
+clearCartButton.addEventListener('click', function() {
+  shop.clear();
+  cartCreate();
+});
 
 
 
-function creatCart() {
-    var cartlist = shop.carts();
-    var exit = "";
-    for (var i in cartArray) {
-        let tr = document.createElement("tr")
 
-        let td = document.createElement("td")
-        td.textContent = cartlist[i].name
-        let td1 = document.createElement("td")
-        td1.textContent = cartlist[i].price
-        let td2 = document.createElement("td")  //3cu hisse
-        let div = document.createElement("div") //div start
-        div.className = 'input-group'
-        let btn = document.createElement("button")
-        btn.setAttribute("data-name=", cartArray[i].name);
-        btn.className = 'minus-item input-group-addon btn btn-primary'
-        btn.textContent = "-";
-        let input = document.createElement("input")
-        input.setAttribute("data-name=", cartArray[i].name);
-        input.type = 'number'
-        input.className = 'item-count form-control'
-        input.value = cartArray[i].count
-        let btn2 = document.createElement("button")
-        btn2.setAttribute("data-name=", cartArray[i].name);
-        btn2.className = 'plus-item btn btn-primary input-group-addon'
-        btn2.textContent = "+"  //div bitdi td bitdi
-        let td3 = document.createElement("td")  //td start
-        let btn3 = document.createElement("button")
-        btn3.setAttribute("data-name=", cartArray[i].name);
-        btn3.className = 'delete-item btn btn-danger'
-        btn3.textContent = "X"
-        let td4 = document.createElement("td")
-        td4.textContent = cartlist[i].sum   //tr end
-
-        div.children(btn)
-        div.children(input)
-        div.children(btn2)
-        td2.children(div)
-
-        td3.children(btn3)
-
-        tr.children(td)
-        tr.children(td1)
-        tr.children(td2)
-        tr.children(td3)
-        tr.children(td4)
-
-        exit += tr;
+function cartCreaate() {
+    var carts = shop.list();
+    var output = "";
+    for (var i in carts) {
+        output += "<tr>"
+            + "<td>" + carts[i].name + "</td>"
+            + "<td>(" + carts[i].price + ")</td>"
+            + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + carts[i].name + ">-</button>"
+            + "<input type='number' class='item-count form-control' data-name='" + carts[i].name + "' value='" + carts[i].count + "'>"
+            + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + carts[i].name + ">+</button></div></td>"
+            + "<td><button class='delete-item btn btn-danger' data-name=" + carts[i].name + ">X</button></td>"
+            + " = "
+            + "<td>" + carts[i].total + "</td>"
+            + "</tr>";
     }
-    var showCartElements = document.getElementsByClassName("show-cart");
-    exit = showCartElements
-    var totalCartElements = document.getElementsByClassName("total-cart");
-    shop.totalCart() = totalCartElements
-    var totalCountElements = document.getElementsByClassName("total-cart");
-    shop.totalCount() = totalCountElements
-
+    $('.show-cart').html(output);
+    $('.total-cart').html(shop.sumcart());
+    $('.total-count').html(shop.sumCount());
 }
 
-const showCart = document.querySelectorAll(".add-to-cart")
-console.log(showCart);
-
-//- buttonuna vurdgumuzda sayin azalmasi
-showCartElements.addEventListener("click", function (e) {
-    if (e.target && e.target.matches(".delete-item")) {
-        let name = e.target.getAttribute("data-name")
-        shop.removeCart(name)
-        creatCart()
-    }
-})
 
 
-//+ buttonuna vurdgumuzda sayin artmasi
-showCartElements.addEventListener("click", function (e) {
-    if (e.target && e.target.matches("plus-item")) {
-        let name = e.target.getAttribute("data-name")
-        shop.addToCart(name)
-        creatCart()
-    }
-})
+var showCartElement = document.querySelector('.show-cart');
 
 
-// sebete add elemek
-showCart.addEventListener("click", function(e) {
-    console.log("add",asd);
-    // e.preventDefault()
-    // let name = this.getAttribute("data-name")
-    // let price = Number(this.getAttribute("data-price"))
-    // shop.addToCart(name,price,1)
-    // creatCart()
-
-})
 
 
-//Clear etmek 
-showCart.addEventListener("click", function (e) {
-    shop.clearCart();
-    creatCart()
-})
+showCartElement.addEventListener('click', function(event) {
+    event.preventDefault();
+  if (event.target.classList.contains('delete-item')) {
+    var name = event.target.getAttribute('data-name');
+    shop.remove(name);
+    cartCreate();
+  }
+});
 
 
-//silmek button 
-showCartElements.addEventListener("click",function(e){
-    if(e.target && e.target.matches("item-count")){
-        let name = e.target.getAttribute("data-name")
-        let count = Number(name.value())
-        shop.addToCart(name)
-        creatCart()
-    }
-})
-creatCart();
+showCartElement.addEventListener('click', function(event) {
+    event.preventDefault();
+  if (event.target.classList.contains('minus-item')) {
+    var name = event.target.getAttribute('data-name');
+    shop.removeItem(name);
+    cartCreate();
+  }
+});
+
+showCartElement.addEventListener('click', function(event) {
+    event.preventDefault();
+  if (event.target.classList.contains('plus-item')) {
+    var name = event.target.getAttribute('data-name');
+    shop.addCart(name);
+    cartCreate();
+  }
+});
+
+
+showCartElement.addEventListener('change', function(event) {
+    event.preventDefault();
+  if (event.target.classList.contains('item-count') && event.target.nodeName === 'INPUT') {
+    var name = event.target.getAttribute('data-name');
+    var count = Number(event.target.value);
+    shop.setItem(name, count);
+    cartCreate();
+  }
+});
+
+
+cartCreaate();
